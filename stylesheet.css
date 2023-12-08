@@ -8,8 +8,10 @@ body {
   background-color: #04AA6D;
   font-family: Georgia, 'Times New Roman', Times, serif;
   margin-top: 100px;
+  
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   
 }
 
@@ -136,16 +138,35 @@ body {
 }
 
 .card-container {
-  width: 1100px;
+  width: 966px;
+  border: 1px solid blueviolet;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  
+    
+  
 }
 .card {
   width: 300px;
-
+  margin: 10px;
+  border: 1px solid green;
+  
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 .image {
   width: 300px;
+  border: 1px solid red;
+
 }
 
 .image img {
   width: 100%;
+}
+.card-body {
+  width: 300px;
+  border: 1px solid black;
 }
