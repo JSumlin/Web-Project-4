@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.errMsg {
+  color: red;
+}
+
+.signup-form {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  border-radius: 5px;
+  background-color: rgba(255,255,255,0.13);
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  border: 2px solid rgba(255,255,255,0.1);
+}
+
+.signup-form h1 {
+  margin-left: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.signup-form p {
+  margin-left: 50px;
+  margin-bottom: 5px ;
+
+}
+
+.signup-form form {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.signup-form input[type=text], input[type=email], input[type=password] {
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  border: none;
+}
+
+.signup-form input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.signup-form input[type=submit] {
+  color: white;
+  font-weight: bold;
+  padding: 10px 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #04AA6D;
+  opacity: 0.9;
+  border: none;
+}
+
+.signup-form input[type=submit]:hover {
+  opacity: 1;
+  cursor: pointer;
+}
