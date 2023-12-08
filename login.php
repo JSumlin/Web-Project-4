@@ -1,6 +1,5 @@
 <?php
-$welcomeMessage = "";  // Variable to store the welcome message
-$loginError = "";      // Variable to store the login error message
+$loginError = ""; // Variable to store the login error message
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
@@ -15,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         list($storedUsername, $storedPassword) = explode(',', $line);
         if ($username === $storedUsername && $password === $storedPassword) {
             $validCredentials = true;
-            $welcomeMessage = "Welcome, $username!";
-            break;
+            // Redirect to the dashboard page upon successful login
+            header("Location: dashboard.php?username=$username");
+            exit();
         }
     }
 
@@ -48,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Login</button>
         </form>
 
-        <!-- Display the welcome message or login error message -->
-        <p style="color: <?php echo empty($loginError) ? 'black' : 'red'; ?>"><?php echo empty($loginError) ? $welcomeMessage : $loginError; ?></p>
+        <!-- Display the login error message -->
+        <p style="color: <?php echo empty($loginError) ? 'black' : 'red'; ?>"><?php echo $loginError; ?></p>
 
         <!-- Signup button to redirect to the signup page -->
         <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
