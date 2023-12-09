@@ -6,7 +6,8 @@ if(!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
 
 if (isset($_POST["add-property"])) {
     $input_names = array("street-address", "city", "state", "country", "price", "age", "num-of-bedrooms", "additional-facilities", "parking-availability", "nearby-facilities", "main-roads");
-    $sql = "INSERT INTO properties (floor_plan, street_address, city, property_state, country, price, age, number_of_bedrooms, additional_facilities, parking_availability, nearby_facilities, main_roads, has_garden, user_id) VALUES ('floor_plan.png', ";
+    $sql = "INSERT INTO properties (floor_plan, street_address, city, property_state, country, price, age, number_of_bedrooms, additional_facilities, parking_availability, nearby_facilities, main_roads, has_garden, user_id) VALUES ( ";
+    $sql = $sql . "' ". $_FILES["floor-plan"]["name"] ."', ";
     foreach($input_names as $input_name){
         if($input_name != "price" && $input_name != "age"){
             $sql = $sql . "'". $_POST[$input_name] . "', ";
@@ -21,7 +22,9 @@ if (isset($_POST["add-property"])) {
     }
     $sql = $sql . $_COOKIE["user_id"] . ");";
     $result = $conn->query($sql);
+    $conn->close();
     header("Location: dashboard.php");
+    $conn->close();
 }
 ?>
 
@@ -38,6 +41,8 @@ if (isset($_POST["add-property"])) {
 
 <body>
     <form action="" method="post" onsubmit="return validateForm();">
+        <label>Upload floor plan:</label>
+        <input type="file" id="floor-plan" name="floor-plan" accept="image/*"><br>
         <label for="street-address">Street Address:</label><br>
         <input type="text" size="100" maxlength="100" placeholder="Street Address" id="street-address" name="street-address"><br>
         <label for="city">City:</label><br>

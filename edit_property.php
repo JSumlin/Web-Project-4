@@ -43,6 +43,8 @@ $conn->close();
 
 <body>
     <form action="" method="post" onsubmit="return validateForm();">
+        <label>Upload floor plan:</label>
+        <input type="file" id="floor-plan" name="floor-plan" accept="image/*"><br>
         <label for="street-address">Street Address:</label><br>
         <input type="text" size="100" maxlength="100" placeholder="Street Address" id="street-address" name="street-address" value=<?php echo "\"" . $property["street_address"] . "\""; ?>><br>
         <label for="city">City:</label><br>
