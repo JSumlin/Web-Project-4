@@ -1,5 +1,5 @@
 <?php
-/*session_start();
+session_start();
 include("connectToDB.php");
 
 
@@ -31,7 +31,7 @@ if (isset($_POST["login"])) {
   } else {
     $usernameErr = "<p> Please enter username correctly.</p>";
   }
-}*/
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +55,7 @@ if (isset($_POST["login"])) {
     <hr>
     <form action="" method="post">
       <div class="form-box">
-        <small class="errMsg"></small>
+        <small></small>
       </div>
       <div class="form-box">
         <label for="username">Username:</label>
