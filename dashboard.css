@@ -12,9 +12,9 @@ body {
     min-height: 100vh;
 }
 
-.container {
+.property-container, .property-container-view {
     width: 300px; /* Same width as the login container */
-    height: 500px; /* Adjusted height */
+    height: 350px; /* Adjusted height */
     background-color: #fff;
     margin: 0 10px; /* Adjust the margin as needed */
     padding: 20px; /* Add padding for content */
@@ -22,7 +22,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.property-image-container {
+.property-image-container, .property-image-container-view {
     height: 200px;
     width: 250px;
     margin-left: 25px;
@@ -31,10 +31,57 @@ body {
     background-repeat: no-repeat;
 }
 
+.property-container, .property-image-container, .property-container p, .property-container b {
+    cursor: pointer;
+}
+
+.property-container:hover {
+    border: 2px solid red;
+}
+
+.property-container-view {
+    width: 75%;
+    min-height: 500px;
+    height: auto;
+}
+
+.property-image-container-view {
+    height: 300px;
+    width: 400px;
+    /* Firefox */
+    margin-left: -moz-calc(50% - 200px);
+    /* WebKit */
+    margin-left: -webkit-calc(50% - 200px);
+    /* Opera */
+    margin-left: -o-calc(50% - 200px);
+    /* Standard */
+    margin-left: calc(50% - 200px);
+}
+
+.add-property-button {
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 4px;
+    height: 40px;
+    width: 40px;
+    background-color: #4caf50;
+    position: absolute;
+    top: 20px;
+    right: 120px;
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: bold;
+}
+
+#add-property-label, .add-property-button {
+    cursor: pointer;
+}
+
 .welcome-text {
     position: absolute;
     top: 20px; /* Adjust the top position as needed */
     left: 20px; /* Adjust the left position as needed */
+    margin: 0;
     color: #333;
 }
 
@@ -52,4 +99,47 @@ body {
 
 .logout-button:hover {
     background-color: #45a049;
+}
+
+#delete-button, #edit-button, #delete-button input {
+    font-size: 20px;
+    text-align: center;
+}
+
+#delete-button, #edit-button{
+    border-radius: 2px;
+    height: 40px;
+    min-width: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 40px;
+    border: 1px solid black;
+}
+
+#delete-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#delete-button input {
+    border: none;
+    font-weight: bold;
+    height: 100%;
+    width: 100%;
+}
+
+#delete-button, #delete-button input {
+    background-color: red;
+}
+
+#edit-button {
+    position: absolute;
+    top: 20px;
+    right: 120px;
+    background-color: cornflowerblue;
+}
+
+#delete-button, #delete-button input, #edit-button, #edit-button b {
+    cursor: pointer;
 }
