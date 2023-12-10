@@ -1,58 +1,94 @@
 <?php
-$loginError = ""; // Variable to store the login error message
+session_start();
+include("connectToDB.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
 
-    // Validate credentials
-    $validCredentials = false;
-    $file = "credentials.txt";
-
-    $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        list($storedUsername, $storedPassword) = explode(',', $line);
-        if ($username === $storedUsername && $password === $storedPassword) {
-            $validCredentials = true;
-            // Redirect to the dashboard page upon successful login
-            header("Location: dashboard.php?username=$username");
-            exit();
+if (isset($_POST["login"])) {
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  $sql = "SELECT * FROM users WHERE user_name = '$username'";
+  $result = mysqli_query($conn, $sql);
+  $user = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  if ($user) {
+    if (password_verify($password, $user["user_password"])) {
+      setcookie("user_id", $user["user_id"], time()+60*60*24*30);
+      setcookie("username", $username, time()+60*60*12);
+      if (isset($_POST["remember"])) {
+        setcookie("user_name", $username, time() + 30);
+        setcookie(("user_password"), $password, time() + 30);
+      } else {
+        if (isset($_COOKIE["user_name"])) {
+          setcookie("user_name", "");
         }
+        if (isset($_COOKIE["user_password"])) {
+          setcookie("user_password", "");
+        }
+      }
+      $_SESSION["username"] = $username;
+      header("Location: dashboard.php");
+      die();
+    } else {
+      $passwordErr = "<p>Please enter password correctly.</p>";
     }
-
-    if (!$validCredentials) {
-        $loginError = "Invalid credentials. Please try again.";
-    }
+  } else {
+    $usernameErr = "<p> Please enter username correctly.</p>";
+  }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="property_styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="stylesheet.css">
 </head>
+
 <body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg');">
-    <div class="company-name">Company Name</div>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form action="login.php" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <button type="submit">Login</button>
-        </form>
-
-        <!-- Display the login error message -->
-        <p style="color: <?php echo empty($loginError) ? 'black' : 'red'; ?>"><?php echo $loginError; ?></p>
-
-        <!-- Signup button to redirect to the signup page -->
-        <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+  <div class="logo">
+    <img src="Property-Hub-logos_transparent.png" alt="logo">
+  </div>
+  <div class="form-container">
+    <div class="header">
+      <h1>Log In</h1>
+      <p>Please enter your username and password to log in</p>
     </div>
+    <hr>
+    <form action="" method="post">
+      <div class="form-box">
+        <small></small>
+      </div>
+      <div class="form-box">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="username" value="<?php if (isset($_COOKIE["user_name"])) {
+                                                                                          echo $_COOKIE["user_name"];
+                                                                                        } ?>" required>
+        <small><?php if (isset($usernameErr)) {
+                  echo $usernameErr;
+                } ?></small>
+      </div>
+      <div class="form-box">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="password" value="<?php if (isset($_COOKIE["user_password"])) {
+                                                                                              echo $_COOKIE["user_password"];
+                                                                                            } ?>" required>
+        <small><?php if (isset($passwordErr)) {
+                  echo $passwordErr;
+                } ?></small>
+      </div>
+      <div class="remember">
+      <input type="checkbox" name="remember" id="remember" <?php if (isset($_COOKIE["user_name"])) { ?> checked <?php } ?> >
+        <label for="remember">Remember Me</label>
+      </div>
+        <div class="form-box">
+          <input type="submit" id="submit" name="login" value="Log in">
+        </div>
+        <div class="form-box">
+          <p>Don't have an account? <a href="signup.php">Sign up</a></p>
+        </div>
+    </form>
+  </div>
 </body>
+
 </html>
