@@ -41,12 +41,29 @@ if (isset($_POST["login"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="stylesheet.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut/icon" href="Property-Hub-logos_white.png" />
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css    "
+    />
 </head>
 
 <body>
-  <div class="logo">
-    <img src="Property-Hub-logos_transparent.png" alt="logo">
-  </div>
+<nav>
+        <input type="checkbox" id="check" />
+        <label for="check" id="check-btn">
+          <i class="fas fa-bars"></i>
+        </label>
+        <div class="nav-image">
+        <a href="index.html"><img src="Property-Hub-logos_transparent.png"/></a>
+      </div>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="signup.php">Sign Up</a></li>
+        </ul>
+      </nav>
+  
   <div class="form-container">
     <div class="header">
       <h1>Log In</h1>
