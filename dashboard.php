@@ -38,7 +38,7 @@
         // output data of each row
         while($row = $result->fetch_assoc()) {
             $property_id = $row["property_id"];
-            $image = $row["floor_plan"];
+            $image = substr($row["floor_plan"], 1);
             $image_style = "background-image: url('property_images/$image');";
             echo "<div class=\"property-container\" id='$property_id'>\n";
             echo "<div class=\"property-image-container\" style=\"$image_style\"></div>";

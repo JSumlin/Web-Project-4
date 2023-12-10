@@ -5,6 +5,10 @@ function addListeners(){
     }
 }
 
+function addDeleteListener(){
+    document.getElementById("delete-button").addEventListener('click', submitDeletion);
+}
+
 function onAddPropertyClick(){
     window.location.href = "add_property.php";
 }

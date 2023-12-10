@@ -16,11 +16,11 @@
     <link rel="stylesheet" href="dashboard.css">
     <script src="dashboard.js"></script>
 </head>
-<body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg');">
+<body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg');" onload="return addDeleteListener();">
 <div id="dashboard-button" onclick=" return toDashboard(); "><b>Dashboard</b></div>
 <div id="edit-button" onclick=" return editProperty(); "><b>Edit</b></div>
 <!-- <div id="delete-button" onclick=" return deleteProperty(); "><b>Delete</b></div> -->
-<div id="delete-button" class=<?php echo "'". $_COOKIE["property_id"] ."'";?> onclick=" return submitDeletion(); ">
+<div id="delete-button" class=<?php echo "'". $_COOKIE["property_id"] ."'";?>>
     <form action="delete_property.php" method="post" onsubmit="return deleteProperty();">
         <input type="submit" id="delete-submit" name="delete-submit" value="Delete">
     </form>
@@ -36,7 +36,7 @@
     $property = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if($property) {
         $property_id = $property["property_id"];
-        $image = $property["floor_plan"];
+        $image = substr($property["floor_plan"], 1);
         $image_style = "background-image: url('property_images/$image');";
         echo "<div class=\"property-container-view\" id='$property_id'>\n";
         echo "<div class=\"property-image-container-view\" style=\"$image_style\"></div>";

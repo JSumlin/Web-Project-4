@@ -5,25 +5,59 @@ if(!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
 }
 
 if (isset($_POST["add-property"])) {
-    $input_names = array("street-address", "city", "state", "country", "price", "age", "num-of-bedrooms", "additional-facilities", "parking-availability", "nearby-facilities", "main-roads");
-    $sql = "INSERT INTO properties (floor_plan, street_address, city, property_state, country, price, age, number_of_bedrooms, additional_facilities, parking_availability, nearby_facilities, main_roads, has_garden, user_id) VALUES ( ";
-    $sql = $sql . "' ". $_FILES["floor-plan"]["name"] ."', ";
-    foreach($input_names as $input_name){
-        if($input_name != "price" && $input_name != "age"){
-            $sql = $sql . "'". $_POST[$input_name] . "', ";
+    $error = "";
+    $uploadSuccessful = true;
+    $file = $_FILES["floor-plan"];
+    $fileName = $_FILES["floor-plan"]["name"];
+    $fileTmpName = $_FILES["floor-plan"]["tmp_name"];
+    $fileSize = $_FILES["floor-plan"]["size"];
+    $fileError = $_FILES["floor-plan"]["error"];
+
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
+
+    $allowed = array("jpg", "jpeg", "png");
+    if(in_array($fileActualExt, $allowed)) {
+        if($fileError === 0){
+            if($fileSize < 500000) {
+                $fileNameNew = uniqid('', true).".".$fileActualExt;
+                $fileDestination = "property_images/" . $fileNameNew;
+                $fileDestination = __DIR__ ."/" . $fileDestination;
+                copy($fileTmpName, $fileDestination);
+            } else {
+                $error = "File too big.";
+                $uploadSuccessful = false; 
+            }
         } else {
-            $sql = $sql . $_POST[$input_name] . ", ";
+            $error = "Upload error";
+            $uploadSuccessful = false; 
         }
+    } else{
+        $error = "File type ($fileName) not allowed";
+        $uploadSuccessful = false;
     }
-    if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
-        $sql = $sql . "1, ";
-    } else {
-        $sql = $sql . "0, ";
+    if($uploadSuccessful){
+        $input_names = array("street-address", "city", "state", "country", "price", "age", "num-of-bedrooms", "additional-facilities", "parking-availability", "nearby-facilities", "main-roads");
+        $sql = "INSERT INTO properties (floor_plan, street_address, city, property_state, country, price, age, number_of_bedrooms, additional_facilities, parking_availability, nearby_facilities, main_roads, has_garden, user_id) VALUES ( ";
+        $sql = $sql . "' ". $fileNameNew ."', ";
+        foreach($input_names as $input_name){
+            if($input_name != "price" && $input_name != "age"){
+                $sql = $sql . "'". $_POST[$input_name] . "', ";
+            } else {
+                $sql = $sql . $_POST[$input_name] . ", ";
+            }
+        }
+        if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
+            $sql = $sql . "1, ";
+        } else {
+            $sql = $sql . "0, ";
+        }
+        $sql = $sql . $_COOKIE["user_id"] . ");";
+        $result = $conn->query($sql);
+        $conn->close();
+        header("Location: dashboard.php");
     }
-    $sql = $sql . $_COOKIE["user_id"] . ");";
-    $result = $conn->query($sql);
-    $conn->close();
-    header("Location: dashboard.php");
+    
     $conn->close();
 }
 ?>
@@ -41,10 +75,11 @@ if (isset($_POST["add-property"])) {
 
 <body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg'">
     <div id="form-container">
+    <?php echo $fileDestination; ?>
     <h1 style="text-align: center;">Add Property</h1>
-        <form action="" method="post" onsubmit="return validateForm();">
-            <label>Upload floor plan:</label>
-            <input type="file" id="floor-plan" name="floor-plan" accept="image/*"><br>
+        <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
+            <label>Upload floor plan (.jpg, .jpeg, .png - 500MB max):</label>
+            <input type="file" id="floor-plan" name="floor-plan" accept="image/jpeg,image/jpg,image/png"><br>
             <label for="street-address">Street Address:</label><br>
             <input type="text" size="100" maxlength="100" placeholder="Street Address" id="street-address" name="street-address"><br>
             <label for="city">City:</label><br>
@@ -70,8 +105,8 @@ if (isset($_POST["add-property"])) {
             <label for="has-garden">Does the property have a garden?</label>
             <input type="checkbox" id="has-garden" name="has-garden" value="Yes"><br>
             <input type="submit" id="submit" name="add-property" value="Add Property"> 
-            <button id="cancel" onclick="return onCancelClick(); ">Cancel</button>
         </form>
+        <button id="cancel" onclick="return onCancelClick(); ">Cancel</button>
     </div>
 </body>
 

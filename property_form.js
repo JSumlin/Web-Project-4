@@ -4,7 +4,9 @@ function validateForm(){
     var isValid = true;
     const inputs = document.getElementsByTagName("input");
     const textAreas = document.getElementsByTagName("textarea");
+    const submitValue = document.getElementById("submit").value;
     for(const input of inputs) {
+        if(submitValue == "Update Property" && input.id == "floor-plan") continue;
         if(!isFilled(input)) isValid = false;
         if(input.type == "number"){
             if(!hasOnlyDigits(input.value)) {

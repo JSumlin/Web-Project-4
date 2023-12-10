@@ -8,17 +8,60 @@ if(!isset($_COOKIE["property_id"])) {
 }
 
 if (isset($_POST["update-property"])) {
-    // $input_names = array("street-address", "city", "state", "country", "price", "age", "num-of-bedrooms", "additional-facilities", "parking-availability", "nearby-facilities", "main-roads");
-    // $sql = "INSERT INTO properties (floor_plan, street_address, city, property_state, country, price, age, number_of_bedrooms, additional_facilities, parking_availability, nearby_facilities, main_roads, has_garden, user_id) VALUES ('floor_plan.png', ";
-    $sql = "UPDATE properties SET floor_plan='floor_plan.png', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby_facilities"] . "', main_roads='". $_POST["main_roads"] . "', ";
-    if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
-        $sql = $sql . "has_garden=1 ";
+    if(isset($_FILES["floor-plan"]["name"]) && strlen($_FILES["floor-plan"]["name"]) != 0){
+        $error = "";
+        $uploadSuccessful = true;
+        $file = $_FILES["floor-plan"];
+        $fileName = $_FILES["floor-plan"]["name"];
+        $fileTmpName = $_FILES["floor-plan"]["tmp_name"];
+        $fileSize = $_FILES["floor-plan"]["size"];
+        $fileError = $_FILES["floor-plan"]["error"];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+
+        $allowed = array("jpg", "jpeg", "png");
+        if(in_array($fileActualExt, $allowed)) {
+            if($fileError === 0){
+                if($fileSize < 500000) {
+                    $fileNameNew = uniqid('', true).".".$fileActualExt;
+                    $fileDestination = "property_images/" . $fileNameNew;
+                    $fileDestination = __DIR__ ."/" . $fileDestination;
+                    copy($fileTmpName, $fileDestination);
+                } else {
+                    $error = "File too big.";
+                    $uploadSuccessful = false; 
+                }
+            } else {
+                $error = "Upload error";
+                $uploadSuccessful = false; 
+            }
+        } else{
+            $error = "File type ($fileName) not allowed";
+            $uploadSuccessful = false;
+        }
+        if($uploadSuccessful){
+            $sql = "UPDATE properties SET floor_plan='".$fileNewName."', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main-roads='". $_POST["main_roads"] . "', ";
+            if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
+                $sql = $sql . "has_garden=1 ";
+            } else {
+                $sql = $sql . "has_garden=0 ";
+            }
+            $sql = $sql . "WHERE user_id=" . $_COOKIE["user_id"]. " AND property_id=" . $_COOKIE["property_id"] . ";";
+            $result = $conn->query($sql);
+            header("Location: dashboard.php");
+        }
     } else {
-        $sql = $sql . "has_garden=0 ";
+        $sql = "UPDATE properties SET street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main_roads='". $_POST["main-roads"] . "', ";
+        if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
+            $sql = $sql . "has_garden=1 ";
+        } else {
+            $sql = $sql . "has_garden=0 ";
+        }
+        $sql = $sql . "WHERE user_id=" . $_COOKIE["user_id"]. " AND property_id=" . $_COOKIE["property_id"] . ";";
+        $result = $conn->query($sql);
+        header("Location: dashboard.php");
     }
-    $sql = $sql . "WHERE user_id=" . $_COOKIE["user_id"]. " AND property_id=" . $_COOKIE["property_id"] . ";";
-    $result = $conn->query($sql);
-    header("Location: dashboard.php");
 }
 
 $sql = "SELECT * FROM properties WHERE user_id=". $_COOKIE["user_id"] ." AND property_id=" . $_COOKIE["property_id"] . ";";
@@ -45,8 +88,9 @@ $conn->close();
     <div id="form-container">
         <h1 style="text-align: center;">Edit Property</h1>
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateForm();">
-            <label>Upload floor plan:</label>
-            <input type="file" id="floor-plan" name="floor-plan" accept="image/*"><br>
+            <?php if(strlen($error) != 0) { echo "<p style='color: red;'>".$error."</p>"; }?>
+            <label>Upload floor plan (.jpg, .jpeg, .png - 500MB max):</label>
+            <input type="file" id="floor-plan" name="floor-plan" accept="image/jpeg,image/jpg,image/png"><br>
             <label for="street-address">Street Address:</label><br>
             <input type="text" size="100" maxlength="100" placeholder="Street Address" id="street-address" name="street-address" value=<?php echo "\"" . $property["street_address"] . "\""; ?>><br>
             <label for="city">City:</label><br>
@@ -72,8 +116,8 @@ $conn->close();
             <label for="has-garden">Does the property have a garden?</label>
             <input type="checkbox" id="has-garden" name="has-garden" value="Yes" <?php if($property["has_garden"] == 1){ echo "checked"; }?>><br>
             <input type="submit" id="submit" name="update-property" value="Update Property">
-            <button id="cancel" onclick="return onCancelClick(); ">Cancel</button>
         </form>
+        <button id="cancel" onclick="return onCancelClick(); ">Cancel</button>
     </div>
 </body>
 
