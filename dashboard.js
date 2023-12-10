@@ -15,6 +15,11 @@ function onPropertyClick(event){
     window.location.href = "view_property.php";
 }
 
+function onLogoutClick(event){
+    const logoutButton = document.getElementById("logout");
+    logoutButton.click();
+}
+
 function editProperty(){
     window.location.href = "edit_property.php";
 }
@@ -32,4 +37,8 @@ function submitDeletion(event){
     if(event.target.id == "delete-submit") return;
     const submitButton = document.getElementById("delete-submit");
     submitButton.click();
+}
+
+function toDashboard(){
+    window.location.href = "dashboard.php";
 }

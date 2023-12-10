@@ -17,6 +17,7 @@
     <script src="dashboard.js"></script>
 </head>
 <body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg');">
+<div id="dashboard-button" onclick=" return toDashboard(); "><b>Dashboard</b></div>
 <div id="edit-button" onclick=" return editProperty(); "><b>Edit</b></div>
 <!-- <div id="delete-button" onclick=" return deleteProperty(); "><b>Delete</b></div> -->
 <div id="delete-button" class=<?php echo "'". $_COOKIE["property_id"] ."'";?> onclick=" return submitDeletion(); ">

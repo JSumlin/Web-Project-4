@@ -6,17 +6,28 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+}
+
+h2 {
+    margin: 0;
+}
+
+#grid-container {
+    display: flex;
+    margin-top: 60px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .property-container, .property-container-view {
     width: 300px; /* Same width as the login container */
     height: 350px; /* Adjusted height */
     background-color: #fff;
-    margin: 0 10px; /* Adjust the margin as needed */
+    margin: 15px 10px; /* Adjust the margin as needed */
     padding: 20px; /* Add padding for content */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -35,11 +46,18 @@ body {
     cursor: pointer;
 }
 
+.property-container {
+    border: 2px solid black;
+    transition: 0.1s;
+}
+
 .property-container:hover {
     border: 2px solid red;
 }
 
 .property-container-view {
+    margin: auto;
+    margin-top: 60px;
     width: 75%;
     min-height: 500px;
     height: auto;
@@ -67,7 +85,7 @@ body {
     background-color: #4caf50;
     position: absolute;
     top: 20px;
-    right: 120px;
+    right: 130px;
     font-size: 30px;
     line-height: 40px;
     font-weight: bold;
@@ -89,16 +107,26 @@ body {
     position: absolute;
     top: 20px; /* Adjust the top position as needed */
     right: 20px; /* Adjust the right position as needed */
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px;
-    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 4px;
-    cursor: pointer;
+    height: 40px;
+    min-width: 60px;
+    border: 1px solid black;
 }
 
-.logout-button:hover {
-    background-color: #45a049;
+#logout, .logout-button {
+    background-color: #4caf50;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#logout {
+    border: none;
+    height: 100%;
 }
 
 #delete-button, #edit-button, #delete-button input {
@@ -106,8 +134,8 @@ body {
     text-align: center;
 }
 
-#delete-button, #edit-button{
-    border-radius: 2px;
+#delete-button, #edit-button, #dashboard-button{
+    border-radius: 4px;
     height: 40px;
     min-width: 60px;
     padding-left: 10px;
@@ -133,13 +161,20 @@ body {
     background-color: red;
 }
 
-#edit-button {
+#edit-button, #dashboard-button {
     position: absolute;
     top: 20px;
-    right: 120px;
     background-color: cornflowerblue;
 }
 
-#delete-button, #delete-button input, #edit-button, #edit-button b {
+#edit-button {
+    right: 120px;
+}
+
+#dashboard-button {
+    left: 20px;
+}
+
+#delete-button, #delete-button input, #edit-button, #edit-button b, #dashboard-button, #dashboard-button b {
     cursor: pointer;
 }

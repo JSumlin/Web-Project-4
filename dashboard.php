@@ -9,26 +9,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Seller Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
     <script src="dashboard.js"></script>
 </head>
 <body style="background-image: url('https://codd.cs.gsu.edu/~anguyen127/WP/PW/4/background.jpg');" onload="return addListeners(); ">
     <?php
     // Get the username from the URL parameter
-    $username = isset($_GET['username']) ? htmlspecialchars($_GET['username']) : '';
+    // $username = isset($_COOKIE["username"]) ? htmlspecialchars($_SESSION["username"]) : '';
     ?>
     <div class="welcome-text">
-        <h2>Welcome, <?php echo $username; ?>!</h2>
+        <h2>Seller Dashboard</h2>
     </div>
 
     <div class="add-property-button" onclick="return onAddPropertyClick(); "><label id="add-property-label">+</label></div>
 
     <!-- Logout button -->
-    <form action="logout.php" method="post" class="logout-button">
-        <button type="submit">Logout</button>
+    <form action="logout.php" method="post" class="logout-button" onclick="return onLogoutClick(); ">
+        <button type="submit" id="logout">Logout</button>
     </form>
-
+    <div id="grid-container">
     <?php 
         include("connectToDB.php");
         $sql = "SELECT * FROM properties WHERE user_id=". $_COOKIE["user_id"] .";";
@@ -56,5 +56,6 @@
         }
         $conn->close();
     ?>
+    </div>
 </body>
 </html>

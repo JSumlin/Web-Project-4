@@ -38,3 +38,7 @@ function isFilled(input){
 function hasOnlyDigits(value) {
     return /^-?\d+$/.test(value);
 }
+
+function onCancelClick(){
+    window.location.href = 'dashboard.php';
+}
