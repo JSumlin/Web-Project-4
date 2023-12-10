@@ -36,7 +36,7 @@
     $property = mysqli_fetch_array($result, MYSQLI_ASSOC);
     if($property) {
         $property_id = $property["property_id"];
-        $image = substr($property["floor_plan"], 1);
+        $image = trim($property["floor_plan"]);
         $image_style = "background-image: url('property_images/$image');";
         echo "<div class=\"property-container-view\" id='$property_id'>\n";
         echo "<div class=\"property-image-container-view\" style=\"$image_style\"></div>";
