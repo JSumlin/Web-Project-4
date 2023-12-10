@@ -10,7 +10,8 @@ body {
   background-image: url(background1.jpg);
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-position: center;
+  
 }
 
 .form-container {
@@ -57,7 +58,7 @@ body {
 }
 
 .form-box input:focus {
-  background-color: #908888;
+  background-color: #a6a6a6;
   outline: none;
 }
 

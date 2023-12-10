@@ -7,7 +7,7 @@ function validateForm() {
 
   if (username.length < 5 || username.length > 10) {
     isValid = false;
-    document.getElementById('usernameErr').innerText = 'Username must between 5 and 10 character.';
+    document.getElementById('usernameErr').innerText = 'Username must between 5 and 10 characters.';
   } else {
     document.getElementById('usernameErr').innerText = '';
   }
@@ -21,7 +21,7 @@ function validateForm() {
 
   if (password.length < 5 || password.length > 10) {
     isValid = false;
-    document.getElementById("passwordErr").innerHTML = 'Password must between 5 and 10 characters';
+    document.getElementById("passwordErr").innerHTML = 'Password must between 5 and 10 characters.';
   } else if(password === username) {
     isValid = false;
     document.getElementById("passwordErr").innerHTML = 'Password must not same as username.'
@@ -44,5 +44,11 @@ function validateForm() {
 function isEmail(email) {
 	return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/.test(email);
 }
+const imgUrls = [image1.png, image2.png, image3.png, image4.png, image5.png];
 
+function changeBackground() {
+  const randomNum = Math.floor(Math.random() * imgUrls.length);
+  const randomImg = imgUrls[randomNum];
+  document.body.style.backgroundImage = `url('${randomImg}')`;
+}
  
