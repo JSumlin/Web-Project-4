@@ -41,7 +41,7 @@ if (isset($_POST["update-property"])) {
             $uploadSuccessful = false;
         }
         if($uploadSuccessful){
-            $sql = "UPDATE properties SET floor_plan='".$fileNameNew."', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main_roads='". $_POST["main_roads"] . "', ";
+            $sql = "UPDATE properties SET floor_plan='".$fileNameNew."', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main_roads='". $_POST["main-roads"] . "', ";
             if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
                 $sql = $sql . "has_garden=1 ";
             } else {
