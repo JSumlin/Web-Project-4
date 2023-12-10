@@ -12,6 +12,7 @@ if (isset($_POST["login"])) {
   if ($user) {
     if (password_verify($password, $user["user_password"])) {
       setcookie("user_id", $user["user_id"], time()+60*60*24*30);
+      setcookie("username", $username, time()+60*60*12);
       if (isset($_POST["remember"])) {
         setcookie("user_name", $username, time() + 30);
         setcookie(("user_password"), $password, time() + 30);
