@@ -6,7 +6,6 @@ if(!isset($_COOKIE["user_id"]) || $_COOKIE["user_id"] < 0) {
 if(!isset($_COOKIE["property_id"])) {
     header("Location: dashboard.php");
 }
-
 if (isset($_POST["update-property"])) {
     if(isset($_FILES["floor-plan"]["name"]) && strlen($_FILES["floor-plan"]["name"]) != 0){
         $error = "";
@@ -40,8 +39,9 @@ if (isset($_POST["update-property"])) {
             $error = "File type ($fileName) not allowed";
             $uploadSuccessful = false;
         }
+    
         if($uploadSuccessful){
-            $sql = "UPDATE properties SET floor_plan='".$fileNewName."', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main-roads='". $_POST["main_roads"] . "', ";
+            $sql = "UPDATE properties SET floor_plan='".$fileNameNew."', street_address='" . $_POST["street-address"] . "', city='" . $_POST["city"] . "', property_state='" . $_POST["state"] . "', country='" . $_POST["country"] . "', price=". $_POST["price"] . ", age=". $_POST["age"] . ", number_of_bedrooms='" . $_POST["num-of-bedrooms"] . "', additional_facilities='". $_POST["additional-facilities"] . "', parking_availability='". $_POST["parking-availability"] ."', nearby_facilities='" . $_POST["nearby-facilities"] . "', main_roads='". $_POST["main-roads"] . "', ";
             if(isset($_POST["has-garden"]) && $_POST["has-garden"] == "Yes"){
                 $sql = $sql . "has_garden=1 ";
             } else {
@@ -61,7 +61,7 @@ if (isset($_POST["update-property"])) {
         $sql = $sql . "WHERE user_id=" . $_COOKIE["user_id"]. " AND property_id=" . $_COOKIE["property_id"] . ";";
         $result = $conn->query($sql);
         header("Location: dashboard.php");
-    }
+   }
 }
 
 $sql = "SELECT * FROM properties WHERE user_id=". $_COOKIE["user_id"] ." AND property_id=" . $_COOKIE["property_id"] . ";";
